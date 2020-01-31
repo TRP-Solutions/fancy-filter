@@ -5,7 +5,7 @@
 $filter = FancyFilter::get('testfilter',['key_b'=>'default_b'],$_GET,['key_a','key_b','key_c']);
 $foo = $filter->key_a;
 ```
-See more in `example.php`
+See more in `sample/example.php`
 
 ## Documentation
 
