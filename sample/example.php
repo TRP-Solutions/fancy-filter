@@ -1,4 +1,8 @@
 <?php
+/*
+FancyFilter is licensed under the Apache License 2.0 license
+https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
+*/
 require_once "FancyFilter.php";
 $filter = FancyFilter::get('testfilter',['key_b'=>'default_b'],$_GET,['key_a','key_b','key_c']);
 ?>
