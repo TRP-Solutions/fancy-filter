@@ -5,8 +5,9 @@ https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
 */
 class FancyFilter {
 	private static $filters = [], $escape_function, $cookie_prefix = 'ffilter_', $store_options = [];
+	const UNSET_MISSING = 1;
 
-	public static function get($name, $defaults = null, $values = null, $selected_keys = null){
+	public static function get($name, $defaults = null, $values = null, $selected_keys = null, $options = 0){
 		if(!isset(self::$filters[$name])){
 			$filter = new self($name);
 			self::$filters[$name] = $filter;
@@ -15,7 +16,7 @@ class FancyFilter {
 			self::$filters[$name]->defaults = array_filter($defaults,['self', 'filter_default'], ARRAY_FILTER_USE_KEY);
 		}
 		if(is_array($values)){
-			self::$filters[$name]->set($values, $selected_keys);
+			self::$filters[$name]->set($values, $selected_keys, !($options & self::UNSET_MISSING));
 		}
 		return self::$filters[$name];
 	}
@@ -46,12 +47,12 @@ class FancyFilter {
 		$this->name = self::$cookie_prefix.$name;
 	}
 
-	private function set($values, $selected_keys){
+	private function set($values, $selected_keys, $ignore_missing = true){
 		if(!is_array($selected_keys)){
 			$selected_keys = array_keys($values);
 		}
 		foreach($selected_keys as $key){
-			if(!array_key_exists($key, $values)) continue;
+			if(!array_key_exists($key, $values) && $ignore_missing) continue;
 			$this->load();
 			if(!empty($values[$key])){
 				$this->values[$key] = $values[$key];
@@ -77,7 +78,19 @@ class FancyFilter {
 		if(!isset($this->values)) return;
 		$json = json_encode($this->values);
 		if(!empty(self::$store_options)){
-			setcookie($this->name, $json, self::$store_options);
+			if(PHP_VERSION_ID >= 70300){
+				setcookie($this->name, $json, self::$store_options);
+			} else {
+				setcookie(
+					$this->name,
+					$json,
+					isset(self::$store_options['expires']) ? self::$store_options['expires'] : 0,
+					isset(self::$store_options['path']) ? self::$store_options['path'] : "",
+					isset(self::$store_options['domain']) ? self::$store_options['domain'] : "",
+					isset(self::$store_options['secure']) ? self::$store_options['secure'] : false,
+					isset(self::$store_options['httponly']) ? self::$store_options['httponly'] : false
+				);
+			}
 		} else {
 			setcookie($this->name, $json);
 		}	
@@ -103,5 +116,3 @@ class FancyFilter {
 		return isset($this->values[$key]) || isset($this->defaults[$key]);
 	}
 }
-
-?>
