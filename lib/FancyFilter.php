@@ -37,6 +37,10 @@ class FancyFilter {
 		}
 	}
 
+	public static function set_option($option, $value){
+		self::$store_options[$option] = $value;
+	}
+
 	public static function set_store_options($options){
 		self::$store_options = $options;
 	}
