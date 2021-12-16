@@ -5,24 +5,13 @@ https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
 */
 class FancyFilter {
 	private static $filters = [], $escape_function, $cookie_prefix = 'ffilter_', $store_options = [];
-	const UNSET_MISSING = 1;
 
-	public static function get($name, $defaults = null, $values = null, $selected_keys = null, $options = 0){
+	public static function get($name, $defaults = []){
 		if(!isset(self::$filters[$name])){
-			$filter = new self($name);
-			self::$filters[$name] = $filter;
+			self::$filters[$name] = new self($name);
 		}
-		if(is_array($defaults)){
-			self::$filters[$name]->defaults = array_filter($defaults,['self', 'filter_default'], ARRAY_FILTER_USE_KEY);
-		}
-		if(is_array($values)){
-			self::$filters[$name]->set($values, $selected_keys, !($options & self::UNSET_MISSING));
-		}
+		self::$filters[$name]->defaults = $defaults;
 		return self::$filters[$name];
-	}
-
-	private static function filter_default($key){
-		return !is_numeric($key);
 	}
 
 	public static function set_escape_function($func){
@@ -41,7 +30,7 @@ class FancyFilter {
 		self::$store_options[$option] = $value;
 	}
 
-	public static function set_store_options($options){
+	public static function set_option_array($options){
 		self::$store_options = $options;
 	}
 
@@ -51,17 +40,23 @@ class FancyFilter {
 		$this->name = self::$cookie_prefix.$name;
 	}
 
-	private function set($values, $selected_keys, $ignore_missing = true){
-		if(!is_array($selected_keys)){
-			$selected_keys = array_keys($values);
+	public function set($key, $value){
+		$this->load();
+		if(is_null($value)){
+			unset($this->values[$key]);
+		} else {
+			$this->values[$key] = $value;
 		}
-		foreach($selected_keys as $key){
-			if(!array_key_exists($key, $values) && $ignore_missing) continue;
-			$this->load();
-			if(!empty($values[$key])){
-				$this->values[$key] = $values[$key];
-			} else {
+		$this->store();
+	}
+
+	public function set_values($values){
+		$this->load();
+		foreach($values as $key => $value){
+			if(is_null($value)){
 				unset($this->values[$key]);
+			} else {
+				$this->values[$key] = $value;
 			}
 		}
 		$this->store();
