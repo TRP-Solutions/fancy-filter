@@ -4,25 +4,28 @@ FancyFilter is licensed under the Apache License 2.0 license
 https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
 */
 require_once "../lib/FancyFilter.php";
-$filter = FancyFilter::get('testfilter',null,$_GET,['key_e'], FancyFilter::UNSET_MISSING);
-$filter = FancyFilter::get('testfilter',['key_b'=>'default_b'],$_GET,['key_a','key_b','key_c']);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>FancyFilter test</title>
+	<script src="../../git_ufo-ajax/lib/ufo.js"></script>
+	<script src="../lib/fancyfilter.js"></script>
 </head>
 <body>
-<pre>
-	Value A: <?=$filter->key_a?> 
-	Value B: <?=$filter->key_b?> 
-	Value C: <?=$filter->key_c?> 
-	Value D: <?=$filter->key_d?> 
-	Value E: <?=$filter->key_e?>
-</pre>
 <?php
 // Getting the same filter with an empty list of defaults
 $filter = FancyFilter::get('testfilter',[]);
+if(isset($_GET['set_values'])){
+	// Using both ->set and ->set_values here for example purposes
+	// If there's more than one value, ->set_values is preferable, because it only stores the new cookie once
+	$filter->set('key_a','Value a from PHP');
+	$filter->set_values([
+		'key_b'=>'Value b from PHP',
+		'key_c'=>'Value c from PHP',
+		'key_d'=>null
+	]);
+}
 ?>
 <pre>
 	No defaults:
@@ -33,15 +36,20 @@ $filter = FancyFilter::get('testfilter',[]);
 	Value E: <?=$filter->key_e?>
 </pre>
 <ul>
-	<li><a href="?key_a=a">Set a=a</a></li>
-	<li><a href="?key_a">Unset a</a></li>
-	<li><a href="?key_b=b">Set b=b</a></li>
-	<li><a href="?key_b">Unset b</a></li>
-	<li><a href="?key_c=c">Set c=c</a></li>
-	<li><a href="?key_c">Unset c</a></li>
-	<li><a href="?key_d=d">Set d=d (not allowed)</a></li>
-	<li><a href="?key_d">Unset d (not allowed)</a></li>
-	<li><form target="#">E: <input type='checkbox' name='key_e'><input type='submit'></form></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_a','a');location = location.pathname;">Set a=a</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_b','b');location = location.pathname;">Set b=b</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_c','c');location = location.pathname;">Set c=c</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_d','d');location = location.pathname;">Set d=d</button></li>
+	<li>E: <input type='checkbox' onchange="FancyFilter.set('testfilter','key_e',this.checked);location.reload();" <?if($filter->key_e) echo "checked";?>></li>
+	<li><button onclick="
+		FancyFilter.set('testfilter','key_a',undefined);
+		FancyFilter.set('testfilter','key_b',undefined);
+		FancyFilter.set('testfilter','key_c',undefined);
+		FancyFilter.set('testfilter','key_d',undefined);
+		FancyFilter.set('testfilter','key_e',undefined);
+		location = location.pathname;
+	">Reset</button></li>
+	<li><a href="?set_values">Set values in PHP</a></li>
 </ul>
 </body>
 </html>

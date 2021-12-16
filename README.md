@@ -2,7 +2,7 @@
 
 ## Example
 ```PHP
-$filter = FancyFilter::get('testfilter',['key_b'=>'default_b'],$_GET,['key_a','key_b','key_c']);
+$filter = FancyFilter::get('testfilter',['key_b'=>'default_b']);
 $foo = $filter->key_a;
 ```
 See more in `sample/example.php`
@@ -11,10 +11,11 @@ See more in `sample/example.php`
 
 ```PHP
 class FancyFilter {
-	public static get($name [, $defaults [, $values [, $selected_keys]]]) : FancyFilter
+	public static get($name [, $defaults]) : FancyFilter
 	public static set_escape_function($func) : void
 	public static set_cookie_prefix($prefix) : void
-	public static set_store_options($options) : void
+	public static set_option($key, $value) : void
+	public static set_option_array($options) : void
 	public __get($key) : mixed
 	public __isset($key) : bool
 }
@@ -53,9 +54,20 @@ Parameter | Type | Description
 --- | --- | ---
 `prefix` | String | The prefix to be used when naming cookies.
 
+### FancyFilter::set_option(...)
+```PHP
+public static set_option($key, $value) : void
+```
+Sets an option for use when storing the cookies. See [setcookie on php.net](https://www.php.net/manual/en/function.setcookie.php) for the `options` array documentation.
+
+Parameter | Type | Description
+--- | --- | ---
+`key` | String | An string which may be one of `expires`, `path`, `domain`, `secure`, `httponly` and `samesite`.
+`value` | String | The value for the chosen key.
+
 ### FancyFilter::set_store_options(...)
 ```PHP
-public static set_store_options($options) : void
+public static set_option_array($options) : void
 ```
 Sets the options used when storing the cookies. See [setcookie on php.net](https://www.php.net/manual/en/function.setcookie.php) for the `options` array documentation.
 
