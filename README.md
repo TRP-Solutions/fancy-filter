@@ -23,7 +23,7 @@ class FancyFilter {
 
 ### FancyFilter::get(...)
 ```PHP
-public static get($name [, $defaults [, $values [, $selected_keys]]]) : FancyFilter
+public static get($name [, $defaults]) : FancyFilter
 ```
 Retrieves or creates the named filter.
 
@@ -31,8 +31,6 @@ Parameter | Type | Description
 --- | --- | ---
 `name` | String | The name of the filter.
 `defaults` | Array | An associative array where defaults are read from. If a value isn't in the filter or in the defaults array, the value will default to `null`.
-`values` | Array | An associative array of new values to write to the filter.
-`selected_keys` | Array | An array listing the keys that should be used in the `values` array. This is intended to let `$_GET` or `$_POST` be used as `values`.
 
 ### FancyFilter::set_escape_function(...)
 ```PHP
@@ -65,7 +63,7 @@ Parameter | Type | Description
 `key` | String | An string which may be one of `expires`, `path`, `domain`, `secure`, `httponly` and `samesite`.
 `value` | String | The value for the chosen key.
 
-### FancyFilter::set_store_options(...)
+### FancyFilter::set_option_array(...)
 ```PHP
 public static set_option_array($options) : void
 ```
