@@ -105,7 +105,8 @@ class FancyFilter {
 			$value = null;
 		}
 		if(isset($value) && isset(self::$escape_function)){
-			$value = self::$escape_function($value);
+			$escape_func = self::$escape_function;
+			$value = $escape_func($value);
 		}
 		return $value;
 	}
