@@ -75,7 +75,7 @@ class FancyFilter {
 
 	private function store(){
 		if(!isset($this->values)) return;
-		$json = json_encode($this->values);
+		$json = json_encode($this->values, JSON_FORCE_OBJECT);
 		if(!empty(self::$store_options)){
 			if(PHP_VERSION_ID >= 70300){
 				setcookie($this->name, $json, self::$store_options);
