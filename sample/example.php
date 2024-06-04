@@ -9,13 +9,12 @@ require_once "../lib/FancyFilter.php";
 <html>
 <head>
 	<title>FancyFilter test</title>
-	<script src="../../git_ufo-ajax/lib/ufo.js"></script>
 	<script src="../lib/fancyfilter.js"></script>
 </head>
 <body>
 <?php
 // Getting the same filter with an empty list of defaults
-$filter = FancyFilter::get('testfilter',[]);
+$filter = FancyFilter::get('testfilter',['key_a'=>'Default']);
 if(isset($_GET['set_values'])){
 	// Using both ->set and ->set_values here for example purposes
 	// If there's more than one value, ->set_values is preferable, because it only stores the new cookie once
@@ -28,7 +27,6 @@ if(isset($_GET['set_values'])){
 }
 ?>
 <pre>
-	No defaults:
 	Value A: <?=$filter->key_a?> 
 	Value B: <?=$filter->key_b?> 
 	Value C: <?=$filter->key_c?> 
@@ -40,7 +38,7 @@ if(isset($_GET['set_values'])){
 	<li><button onclick="FancyFilter.set('testfilter','key_b','b');location = location.pathname;">Set b=b</button></li>
 	<li><button onclick="FancyFilter.set('testfilter','key_c','c');location = location.pathname;">Set c=c</button></li>
 	<li><button onclick="FancyFilter.set('testfilter','key_d','d');location = location.pathname;">Set d=d</button></li>
-	<li>E: <input type='checkbox' onchange="FancyFilter.set('testfilter','key_e',this.checked);location.reload();" <?if($filter->key_e) echo "checked";?>></li>
+	<li>E: <input type='checkbox' onchange="FancyFilter.set('testfilter','key_e',this.checked);location = location.pathname;" <?php if($filter->key_e) echo "checked";?>></li>
 	<li><button onclick="
 		FancyFilter.set('testfilter','key_a',undefined);
 		FancyFilter.set('testfilter','key_b',undefined);
