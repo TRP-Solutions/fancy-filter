@@ -14,7 +14,7 @@ require_once "../lib/FancyFilter.php";
 <body>
 <?php
 // Getting the same filter with an empty list of defaults
-$filter = FancyFilter::get('testfilter',['key_a'=>'Default','key_e'=>[]]);
+$filter = FancyFilter::get('testfilter',['key_a'=>'Default','key_e'=>[0,4]]);
 if(isset($_GET['set_values'])){
 	// Using both ->set and ->set_values here for example purposes
 	// If there's more than one value, ->set_values is preferable, because it only stores the new cookie once
@@ -38,9 +38,9 @@ if(isset($_GET['set_values'])){
 	<li><button onclick="FancyFilter.set('testfilter','key_b','b');location = location.pathname;">Set b=b</button></li>
 	<li><button onclick="FancyFilter.set('testfilter','key_c','c');location = location.pathname;">Set c=c</button></li>
 	<li>D: <input type='checkbox' onchange="FancyFilter.set('testfilter','key_d',this.checked);location = location.pathname;" <?php if($filter->key_d) echo "checked";?>></li>
-	<li>E.0: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',0,this.checked);location = location.pathname;" <?php if(in_array(0,$filter->key_e)) echo "checked";?>></li>
-	<li>E.2: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',2,this.checked);location = location.pathname;" <?php if(in_array(2,$filter->key_e)) echo "checked";?>></li>
-	<li>E.4: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',4,this.checked);location = location.pathname;" <?php if(in_array(4,$filter->key_e)) echo "checked";?>></li>
+	<li>E.0: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',0,this.checked,[0,4]);location = location.pathname;" <?php if(in_array(0,$filter->key_e)) echo "checked";?>></li>
+	<li>E.2: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',2,this.checked,[0,4]);location = location.pathname;" <?php if(in_array(2,$filter->key_e)) echo "checked";?>></li>
+	<li>E.4: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',4,this.checked,[0,4]);location = location.pathname;" <?php if(in_array(4,$filter->key_e)) echo "checked";?>></li>
 	<li><button onclick="
 		FancyFilter.set('testfilter','key_a',undefined);
 		FancyFilter.set('testfilter','key_b',undefined);
