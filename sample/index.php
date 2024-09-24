@@ -3,6 +3,7 @@
 FancyFilter is licensed under the Apache License 2.0 license
 https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
 */
+declare(strict_types=1);
 require_once "../lib/FancyFilter.php";
 ?>
 <!DOCTYPE html>
