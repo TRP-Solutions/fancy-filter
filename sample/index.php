@@ -35,9 +35,10 @@ if(isset($_GET['set_values'])){
 	Value E: <?=implode(',',$filter->key_e)?> 
 </pre>
 <ul>
-	<li><button onclick="FancyFilter.set('testfilter','key_a','a');location = location.pathname;">Set a=a</button></li>
-	<li><button onclick="FancyFilter.set('testfilter','key_b','b');location = location.pathname;">Set b=b</button></li>
-	<li><button onclick="FancyFilter.set('testfilter','key_c','c');location = location.pathname;">Set c=c</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_a','a');location = location.pathname;">Set a='a'</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_a','');location = location.pathname;">Set a=''</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_b','b');location = location.pathname;">Set b='b'</button></li>
+	<li><button onclick="FancyFilter.set('testfilter','key_c','c');location = location.pathname;">Set c='c'</button></li>
 	<li>D: <input type='checkbox' onchange="FancyFilter.set('testfilter','key_d',this.checked);location = location.pathname;" <?php if($filter->key_d) echo "checked";?>></li>
 	<li>E.0: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',0,this.checked,[0,4]);location = location.pathname;" <?php if(in_array(0,$filter->key_e)) echo "checked";?>></li>
 	<li>E.2: <input type='checkbox' onchange="FancyFilter.toggle('testfilter','key_e',2,this.checked,[0,4]);location = location.pathname;" <?php if(in_array(2,$filter->key_e)) echo "checked";?>></li>
