@@ -5,6 +5,7 @@ https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
 */
 declare(strict_types=1);
 require_once "../lib/FancyFilter.php";
+use \TRP\FancyFilter\FancyFilter;
 ?>
 <!DOCTYPE html>
 <html>
