@@ -1,7 +1,7 @@
 <?php
 /*
 FancyFilter is licensed under the Apache License 2.0 license
-https://github.com/TRP-Solutions/fancy-filter/blob/master/LICENSE
+https://github.com/trp-solutions/FancyFilter/blob/main/LICENSE
 */
 declare(strict_types=1);
 namespace TRP\FancyFilter;
